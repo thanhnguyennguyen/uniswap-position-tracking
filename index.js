@@ -15,46 +15,57 @@ const positionId = 1925550
 const poolAddress = "0x5968FEACbA91D55010975E0CFe8ACfc32664ad33"
 const POSITION_MANAGER_ADDRESS = "0x46A15B0b27311cedF172AB29E4f4766fbE7F4364"
 
+const checkPosition = async () => {
+    try {
+        // Connect to provider
+        const provider = new ethers.providers.JsonRpcProvider(RPC_ENDPOINT);
+        
+        // Create contract instances
+        const positionManager = new ethers.Contract(
+            POSITION_MANAGER_ADDRESS,
+            INonfungiblePositionManagerABI,
+            provider
+        );
 
+        // Get position details
+        const position = await positionManager.positions(positionId);
+
+        // Create pool contract instance
+        const poolContract = new ethers.Contract(
+            poolAddress,
+            IUniswapV3PoolABI,
+            provider
+        );
+
+        // Get current tick from slot0
+        const slot0 = await poolContract.slot0();
+        const currentTick = slot0.tick;
+
+        // Check if position is in range
+        const isInRange = currentTick >= position.tickLower && 
+                         currentTick <= position.tickUpper;
+
+        console.log(`Position ${positionId} is ${isInRange ? 'IN RANGE' : 'OUT OF RANGE'}`);
+        console.log('Current tick:', currentTick);
+        console.log('Lower tick:', position.tickLower.toString());
+        console.log('Upper tick:', position.tickUpper.toString());
+
+        if (!isInRange) {
+            notifyTelegram(`Position ${positionId} is out of range`, process.env.TELEGRAM_TOKEN, process.env.TELEGRAM_CHAT)
+            notifySlack(`Position ${positionId} is out of range`, process.env.SLACK_HOOK_KEY, process.env.SLACK_CHANNEL, process.env.SLACK_BOTNAME, process.env.SLACK_ICON)
+        }
+    } catch (error) {
+        console.error('Error checking position:', error);
+    }
+}
 
 const main = async () => {
-    // Connect to provider
-    const provider = new ethers.providers.JsonRpcProvider(RPC_ENDPOINT);
+    console.log('Starting position monitoring...');
+    // Run immediately on startup
+    await checkPosition();
     
-    // Create contract instances
-    const positionManager = new ethers.Contract(
-        POSITION_MANAGER_ADDRESS,
-        INonfungiblePositionManagerABI,
-        provider
-    );
-
-    // Get position details
-    const position = await positionManager.positions(positionId);
-
-    // Create pool contract instance
-    const poolContract = new ethers.Contract(
-        poolAddress,
-        IUniswapV3PoolABI,
-        provider
-    );
-
-    // Get current tick from slot0
-    const slot0 = await poolContract.slot0();
-    const currentTick = slot0.tick;
-
-    // Check if position is in range
-    const isInRange = currentTick >= position.tickLower && 
-                     currentTick <= position.tickUpper;
-
-    console.log(`Position ${positionId} is ${isInRange ? 'IN RANGE' : 'OUT OF RANGE'}`);
-    console.log('Current tick:', currentTick);
-    console.log('Lower tick:', position.tickLower.toString());
-    console.log('Upper tick:', position.tickUpper.toString());
-
-    if (!isInRange) {
-        notifyTelegram(`Position ${positionId} is out of range`, process.env.TELEGRAM_TOKEN, process.env.TELEGRAM_CHAT)
-        notifySlack(`Position ${positionId} is out of range`, process.env.SLACK_HOOK_KEY, process.env.SLACK_CHANNEL, process.env.SLACK_BOTNAME, process.env.SLACK_ICON)
-    }
+    // Then run every minute
+    setInterval(checkPosition, 60000);
 }
 
 main()
