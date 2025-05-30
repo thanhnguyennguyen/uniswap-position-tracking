@@ -4,7 +4,6 @@ require('dotenv').config({
 })
 const noti_bot = require('noti_bot')
 const notifyTelegram = noti_bot.telegram
-const notifySlack = noti_bot.slack
 
 const { ethers } = require('ethers');
 const { abi: IUniswapV3PoolABI } = require('@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json');
@@ -52,7 +51,6 @@ const checkPosition = async () => {
 
         if (!isInRange) {
             notifyTelegram(`Position ${positionId} is out of range`, process.env.TELEGRAM_TOKEN, process.env.TELEGRAM_CHAT)
-            notifySlack(`Position ${positionId} is out of range`, process.env.SLACK_HOOK_KEY, process.env.SLACK_CHANNEL, process.env.SLACK_BOTNAME, process.env.SLACK_ICON)
         }
     } catch (error) {
         console.error('Error checking position:', error);
