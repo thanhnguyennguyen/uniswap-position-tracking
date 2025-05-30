@@ -1,0 +1,6 @@
+config/*
+node_modules/*
+.env
+contracts/*
+*abi.json
+package-lock.json
