@@ -10,7 +10,7 @@ const { abi: IUniswapV3PoolABI } = require('@uniswap/v3-core/artifacts/contracts
 const { abi: INonfungiblePositionManagerABI } = require('@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json');
 
 const RPC_ENDPOINT = "https://bsc-dataseed1.binance.org"
-const positionId = 1925550
+const positionId = 1936194
 const poolAddress = "0x5968FEACbA91D55010975E0CFe8ACfc32664ad33"
 const POSITION_MANAGER_ADDRESS = "0x46A15B0b27311cedF172AB29E4f4766fbE7F4364"
 
