@@ -42,7 +42,7 @@ const checkPosition = async () => {
 
         // Check if position is in range
         const isInRange = currentTick >= position.tickLower && 
-                         currentTick <= position.tickUpper;
+                         currentTick < position.tickUpper;
 
         console.log(`Position ${positionId} is ${isInRange ? 'IN RANGE' : 'OUT OF RANGE'}`);
         console.log('Current tick:', currentTick);
