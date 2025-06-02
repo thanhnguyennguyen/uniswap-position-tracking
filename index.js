@@ -63,7 +63,7 @@ const main = async () => {
     await checkPosition();
     
     // Then run every minute
-    setInterval(checkPosition, 60000);
+    setInterval(checkPosition, 5 * 60_000);
 }
 
 main()
