@@ -50,7 +50,7 @@ const checkPosition = async () => {
         console.log('Upper tick:', position.tickUpper.toString());
 
         if (!isInRange) {
-            notifyTelegram(`Position ${positionId} is out of range ${currentTick < position.tickUpper ? 'break Upper Range ' : 'break Lower Range'}`, process.env.TELEGRAM_TOKEN, process.env.TELEGRAM_CHAT)
+            notifyTelegram(`Position ${positionId} is out of range ${currentTick < position.tickUpper ? 'break Upper Range ' : 'break Lower Range'}  currentTick: ${currentTick}`, process.env.TELEGRAM_TOKEN, process.env.TELEGRAM_CHAT)
         }
     } catch (error) {
         console.error('Error checking position:', error);
