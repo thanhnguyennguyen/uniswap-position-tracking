@@ -6,14 +6,14 @@ const noti_bot = require('noti_bot')
 const notifyTelegram = noti_bot.telegram
 
 const { ethers } = require('ethers');
-const { abi: IUniswapV3PoolABI } = require('@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json');
-const { abi: INonfungiblePositionManagerABI } = require('@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json');
+const CLAMM_ABI = require('./abi/pancake_infinity_clamm_manager.json')
+const INonfungiblePositionManagerABI = require('./abi/pancake_infinity_clamm_position_manager.json');
 
 const RPC_ENDPOINT = "https://bsc-dataseed1.binance.org"
 const positionId = process.env.POSITION
 const poolAddress = process.env.POOL
-const POSITION_MANAGER_ADDRESS = "0x46A15B0b27311cedF172AB29E4f4766fbE7F4364"
-
+const POSITION_MANAGER_ADDRESS = "0x55f4c8abA71A1e923edC303eb4fEfF14608cC226"
+const POOL_MANAGER_ADDRESS = '0xa0FfB9c1CE1Fe56963B0321B32E7A0302114058b'
 const checkPosition = async () => {
     try {
         // Connect to provider
@@ -31,13 +31,13 @@ const checkPosition = async () => {
 
         // Create pool contract instance
         const poolContract = new ethers.Contract(
-            poolAddress,
-            IUniswapV3PoolABI,
+            POOL_MANAGER_ADDRESS,
+            CLAMM_ABI,
             provider
         );
 
         // Get current tick from slot0
-        const slot0 = await poolContract.slot0();
+        const slot0 = await poolContract.getSlot0(poolAddress);
         const currentTick = slot0.tick;
 
         // Check if position is in range

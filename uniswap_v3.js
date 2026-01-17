@@ -1,6 +1,6 @@
 const path = require('path')
 require('dotenv').config({
-    path: path.resolve(__dirname, './.env.koge')
+    path: path.resolve(__dirname, './.env')
 })
 const noti_bot = require('noti_bot')
 const notifyTelegram = noti_bot.telegram
@@ -12,7 +12,7 @@ const { abi: INonfungiblePositionManagerABI } = require('@uniswap/v3-periphery/a
 const RPC_ENDPOINT = "https://bsc-dataseed1.binance.org"
 const positionId = process.env.POSITION
 const poolAddress = process.env.POOL
-const POSITION_MANAGER_ADDRESS = "0x46A15B0b27311cedF172AB29E4f4766fbE7F4364"
+const POSITION_MANAGER_ADDRESS = "0x55f4c8abA71A1e923edC303eb4fEfF14608cC226"
 
 const checkPosition = async () => {
     try {
