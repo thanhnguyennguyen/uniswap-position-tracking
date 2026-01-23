@@ -35,16 +35,16 @@ const checkPosition = async () => {
         const currentTick = slot0.tick;
 
         // Check if position is in range
-        const isInRange = currentTick >= TICK_LOWER && 
-                         currentTick < TICK_UPPER;
-
+        const breakUpper = currentTick >= TICK_UPPER
+        const breakLower = currentTick < TICK_LOWER
+        const isInRange = !breakUpper && !breakLower
         console.log(`Position ${positionId} is ${isInRange ? 'IN RANGE' : 'OUT OF RANGE'}`);
         console.log('Current tick:', currentTick);
         console.log('Lower tick:', TICK_LOWER);
         console.log('Upper tick:', TICK_UPPER);
 
         if (!isInRange) {
-            notifyTelegram(`Position https://app.uniswap.org/positions/v4/bnb/${positionId}  is out of range ${currentTick < position.tickUpper ? 'break Upper Range ' : 'break Lower Range'}  currentTick: ${currentTick}`, process.env.TELEGRAM_TOKEN, process.env.TELEGRAM_CHAT)
+            notifyTelegram(`Position https://app.uniswap.org/positions/v4/bnb/${positionId}  is out of range ${ breakUpper  ? 'break Upper Range ' : 'break Lower Range'}  currentTick: ${currentTick}`, process.env.TELEGRAM_TOKEN, process.env.TELEGRAM_CHAT)
         }
     } catch (error) {
         console.error('Error checking position:', error);
