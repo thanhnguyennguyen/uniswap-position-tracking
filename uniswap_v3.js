@@ -1,6 +1,6 @@
 const path = require('path')
 require('dotenv').config({
-    path: path.resolve(__dirname, './.env')
+    path: path.resolve(__dirname, process.env.ENV_FILE ?? './.env')
 })
 const noti_bot = require('noti_bot')
 const notifyTelegram = noti_bot.telegram
@@ -9,10 +9,10 @@ const { ethers } = require('ethers');
 const { abi: IUniswapV3PoolABI } = require('@uniswap/v3-core/artifacts/contracts/interfaces/IUniswapV3Pool.sol/IUniswapV3Pool.json');
 const { abi: INonfungiblePositionManagerABI } = require('@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json');
 
-const RPC_ENDPOINT = "https://bsc-dataseed1.binance.org"
+const RPC_ENDPOINT = process.env.RPC ??  "https://node-eth.pinksale.com"
 const positionId = process.env.POSITION
 const poolAddress = process.env.POOL
-const POSITION_MANAGER_ADDRESS = "0x46A15B0b27311cedF172AB29E4f4766fbE7F4364"
+const POSITION_MANAGER_ADDRESS = process.env.STATE_VIEW_CONTRACT
 
 const checkPosition = async () => {
     try {
@@ -50,7 +50,7 @@ const checkPosition = async () => {
         console.log('Upper tick:', position.tickUpper.toString());
 
         if (!isInRange) {
-            notifyTelegram(`Position https://pancakeswap.finance/liquidity/${positionId}?chain=bsc is out of range ${currentTick >=  position.tickUpper ? 'break Upper Range ' : 'break Lower Range'}  currentTick: ${currentTick}`, process.env.TELEGRAM_TOKEN, process.env.TELEGRAM_CHAT)
+            notifyTelegram(`Position https://app.uniswap.org/positions/v3/ethereum/${positionId} is out of range ${currentTick >=  position.tickUpper ? 'break Upper Range ' : 'break Lower Range'}  currentTick: ${currentTick}`, process.env.TELEGRAM_TOKEN, process.env.TELEGRAM_CHAT)
         }
     } catch (error) {
         console.error('Error checking position:', error);
