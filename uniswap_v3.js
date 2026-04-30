@@ -62,6 +62,11 @@ const main = async () => {
     // Run immediately on startup
     await checkPosition();
     
+    const runOnce =
+    String(process.env.RUN_ONCE || '').toLowerCase() === 'true' ||
+    String(process.env.CI || '').toLowerCase() === 'true'
+
+if (runOnce) return
     // Then run every minute
     setInterval(checkPosition, 5 * 60_000);
 }
