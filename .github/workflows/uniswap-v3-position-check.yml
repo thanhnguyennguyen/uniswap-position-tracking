@@ -19,7 +19,7 @@ jobs:
       RPC: ${{ secrets.RPC }}
       POSITION: ${{ secrets.POSITION }}
       POOL: ${{ secrets.POOL }}
-      STATE_VIEW_CONTRACT: ${{ secrets.STATE_VIEW_CONTRACT }}
+      STATE_VIEW_CONTRACT_V3: ${{ secrets.STATE_VIEW_CONTRACT_V3 }}
       CHAIN: ${{ secrets.CHAIN }}
       TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
       TELEGRAM_CHAT: ${{ secrets.TELEGRAM_CHAT }}

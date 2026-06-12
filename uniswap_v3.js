@@ -12,7 +12,7 @@ const { abi: INonfungiblePositionManagerABI } = require('@uniswap/v3-periphery/a
 const RPC_ENDPOINT = process.env.RPC ??  "https://node-eth.pinksale.com"
 const positionId = process.env.POSITION
 const poolAddress = process.env.POOL
-const POSITION_MANAGER_ADDRESS = process.env.STATE_VIEW_CONTRACT
+const POSITION_MANAGER_ADDRESS = process.env.STATE_VIEW_CONTRACT_V3
 
 const checkPosition = async () => {
     try {
