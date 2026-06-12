@@ -17,8 +17,8 @@ jobs:
       CI: "true"
       RUN_ONCE: "true"
       RPC: ${{ secrets.RPC }}
-      POSITION: ${{ secrets.POSITION }}
-      POOL: ${{ secrets.POOL }}
+      POSITION_V3: ${{ secrets.POSITION_V3 }}
+      POOL_V3: ${{ secrets.POOL_V3 }}
       STATE_VIEW_CONTRACT_V3: ${{ secrets.STATE_VIEW_CONTRACT_V3 }}
       CHAIN: ${{ secrets.CHAIN }}
       TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}

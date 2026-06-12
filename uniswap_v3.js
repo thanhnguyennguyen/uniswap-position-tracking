@@ -10,8 +10,8 @@ const { abi: IUniswapV3PoolABI } = require('@uniswap/v3-core/artifacts/contracts
 const { abi: INonfungiblePositionManagerABI } = require('@uniswap/v3-periphery/artifacts/contracts/NonfungiblePositionManager.sol/NonfungiblePositionManager.json');
 
 const RPC_ENDPOINT = process.env.RPC ??  "https://node-eth.pinksale.com"
-const positionId = process.env.POSITION
-const poolAddress = process.env.POOL
+const positionId = process.env.POSITION_V3
+const poolAddress = process.env.POOL_V3
 const POSITION_MANAGER_ADDRESS = process.env.STATE_VIEW_CONTRACT_V3
 
 const checkPosition = async () => {
